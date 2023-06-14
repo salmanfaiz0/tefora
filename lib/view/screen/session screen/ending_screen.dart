@@ -64,7 +64,8 @@ class EndingScreen extends StatelessWidget {
               ),
               ButtonWidget(
                   buttonName: "Submit",
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(
+                  onPressed: () =>
+                      Navigator.pushReplacement(context, MaterialPageRoute(
                         builder: (context) {
                           return FacultyDashPage();
                         },

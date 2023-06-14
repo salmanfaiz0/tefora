@@ -6,7 +6,7 @@ import 'package:tefora/view/screen/login%20screen/login_screen.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return LoginPage();
@@ -16,9 +16,22 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-          child: Image.asset(
-        "assets/logo/logo.png",
-        scale: 4,
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Image.asset(
+              "assets/logo/logo.png",
+              scale: 4,
+            ),
+          ),
+          Expanded(
+            child: Image.asset(
+              "assets/logo/logo2.png",
+              scale: 1,
+            ),
+          ),
+        ],
       )),
     );
   }
