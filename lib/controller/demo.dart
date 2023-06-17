@@ -1,7 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:tefora/controller/Service/faculty_service.dart';
+import 'package:tefora/controller/login_controller.dart';
 import 'package:tefora/model/demo_model.dart';
+import 'package:tefora/model/faculty_model.dart';
+import 'package:http/http.dart' as http;
 
 class FacultyDash extends ChangeNotifier {
+  List<FacultyModel> themes = [];
+
+  List<FacultyModel> get _themes => themes;
+
+  final _services = FacultyService();
+
+  Future<void> getalldata() async {
+    final result = await _services.getThemes();
+    themes = result as List<FacultyModel>;
+  }
+
   List<Subject> suject = [
     Subject(
       "NEET 22-23",

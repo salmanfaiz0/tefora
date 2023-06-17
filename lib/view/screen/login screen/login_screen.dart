@@ -37,7 +37,13 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  TextfieldWidgets("Email address", null, null, false, true),
+                  TextfieldWidgets(
+                      "Email address",
+                      null,
+                      Provider.of<LoginController>(context, listen: false)
+                          .emailcontrolelr,
+                      false,
+                      true),
                   SizedBox(
                     height: 15,
                   ),
@@ -45,27 +51,36 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  TextfieldWidgets("Password", null, null, false, true),
+                  TextfieldWidgets(
+                      "Password",
+                      null,
+                      Provider.of<LoginController>(context, listen: false)
+                          .passwordcontroller,
+                      false,
+                      true),
                 ],
               ),
               SizedBox(
                 height: 15,
               ),
               ButtonWidget(
-                buttonName: "Log In",
-                onPressed: () =>
+                  buttonName: "Log In",
+                  onPressed: () {
+                    Provider.of<LoginController>(context, listen: false)
+                        .loginApi();
 
-                    // Provider.of<LoginController>(context , listen:  false).loginApi();
+                    Provider.of<LoginController>(context, listen: false)
+                        .getToken();
 
-                    Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return FacultyDashPage();
-                    },
-                  ),
-                ),
-              ),
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return FacultyDashPage();
+                    //     },
+                    //   ),
+                    // );
+                  }),
               SizedBox(
                 height: 15,
               ),

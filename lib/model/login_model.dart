@@ -1,6 +1,6 @@
-class LoginPage {
+class LoginModel {
   String usernamel;
   String password;
 
-  LoginPage(this.usernamel, this.password);
+  LoginModel(this.usernamel, this.password);
 }

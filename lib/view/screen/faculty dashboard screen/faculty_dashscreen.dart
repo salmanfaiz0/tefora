@@ -7,10 +7,12 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tefora/model/demo_model.dart';
+import 'package:tefora/view/screen/faculty%20dashboard%20screen/widgets/topview_widget.dart';
 import 'package:tefora/view/screen/notification%20screen/notification_screen.dart';
 import 'package:tefora/view/screen/profile%20screen/profile_screen.dart';
-import 'package:tefora/view/screen/session%20screen/ending_screen.dart';
-import 'package:tefora/view/screen/session%20screen/starting_screen.dart';
+import 'package:tefora/view/screen/session%20screen/Ending/ending_screen.dart';
+import 'package:tefora/view/screen/session%20screen/Starting/starting_screen.dart';
+
 import 'package:tefora/view/widget/button_widgets.dart';
 
 import '../../../controller/demo.dart';
@@ -185,102 +187,7 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
           centerTitle: true,
         ),
         body: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3.2,
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 1)
-                ],
-                color: Color.fromRGBO(4, 83, 155, 1),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(22),
-                    bottomRight: Radius.circular(22))),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Column(children: [
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return ProfileScreen();
-                            },
-                          ));
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          maxRadius: 60,
-                          backgroundImage: NetworkImage(
-                              "https://cdn3d.iconscout.com/3d/premium/thumb/casual-female-5218540-4358040.png"),
-                        )),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Reshma T.s",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "XXXXX231",
-                      style: TextStyle(fontSize: 14, color: Colors.white30),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "01",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "02",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "23",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Incomplete",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          "Pending",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          "Complete",
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )
-                  ]),
-                ),
-              ],
-            ),
-          ),
+          TopViewWidget(),
           Expanded(
             child: ListView.builder(
               itemCount: testprovider.suject.length,

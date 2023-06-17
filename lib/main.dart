@@ -4,8 +4,7 @@ import 'package:tefora/controller/demo.dart';
 import 'package:tefora/controller/login_controller.dart';
 
 import 'package:tefora/view/screen/login%20screen/login_screen.dart';
-import 'package:tefora/view/screen/session%20screen/ending_screen.dart';
-import 'package:tefora/view/screen/session%20screen/starting_screen.dart';
+
 import 'package:tefora/view/screen/splash%20screen/splash_screen.dart';
 
 void main() {

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tefora/controller/demo.dart';
 
 import 'package:tefora/view/screen/faculty%20dashboard%20screen/faculty_dashscreen.dart';
-import 'package:tefora/view/screen/session%20screen/ending_screen.dart';
+
 import 'package:tefora/view/widget/button_widgets.dart';
 import 'package:tefora/view/widget/textfield_widget.dart';
 
