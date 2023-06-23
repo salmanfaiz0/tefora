@@ -63,8 +63,9 @@ class _StartingSessionState extends State<StartingSession> {
               ButtonWidget(
                 buttonName: "Continue",
                 onPressed: () {
-                  // Provider.of<demoNotr>(context, listen: false)
-                  //     .changeStatus(testprovider.suject[index]);
+                  // Provider.of<FacultyDash>(context, listen: false)
+                  // .changeStatus(testprovider.suject[index]);
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

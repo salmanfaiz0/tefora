@@ -5,6 +5,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:tefora/controller/demo.dart';
 import 'package:tefora/controller/login_controller.dart';
+import 'package:tefora/view/screen/login%20screen/login_screen.dart';
+import 'package:tefora/view/screen/profile%20screen/widgets/Payment/payment_widget.dart';
+import 'package:tefora/view/screen/profile%20screen/widgets/Privacy/privacy_widget.dart';
 import 'package:tefora/view/screen/profile%20screen/widgets/Profile%20Widget/profile_widget.dart';
 import 'package:tefora/view/widget/appbar_widgets.dart';
 
@@ -17,7 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<FacultyDash>(context, listen: false).getalldata();
+      final result =
+          Provider.of<FacultyDash>(context, listen: false).getalldata();
     });
   }
 
@@ -58,14 +62,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            "Reshma T.s",
+                            value.data?.fullName ?? "",
                             style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "XXXXX231",
+                            value.data?.username ?? "",
                             style:
                                 TextStyle(fontSize: 14, color: Colors.white30),
                           ),
@@ -102,7 +106,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ProfileWidget(
                           title: "Payment History",
                           icon: Iconsax.archive_book,
-                          onpress: () {},
+                          onpress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PaymentPage(),
+                                ));
+                          },
                         ),
                         ProfileWidget(
                           title: "Bounce & Redeem",
@@ -112,7 +122,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ProfileWidget(
                           title: "Privacy & Policy",
                           icon: Iconsax.lock,
-                          onpress: () {},
+                          onpress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrivacyPage(),
+                                ));
+                          },
                         ),
                         ProfileWidget(
                           title: "Log out",
@@ -120,7 +136,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onpress: () {
                             Provider.of<LoginController>(context, listen: false)
                                 .removeToken();
-                            print("context.hashCode");
+                            Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ));
+                            print("Logged out");
                           },
                           endIcon: false,
                         ),

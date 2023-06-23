@@ -23,11 +23,20 @@ class FacultyDashPage extends StatefulWidget {
 }
 
 class _FacultyDashPageState extends State<FacultyDashPage> {
+  @override
+  void initState() {
+    Provider.of<FacultyDash>(context, listen: false).getalldata();
+    Provider.of<FacultyDash>(context, listen: false).getsessionData();
+
+    super.initState();
+  }
+
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    menuList(String? course, String? subject, String? status) {
+    menuList(String? course, String? subject, String? status, String? chapter,
+        String? batch, String? center) {
       showDialog(
         context: context,
         builder: (context) {
@@ -51,7 +60,7 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text("Batch:"),
+                Text("Batch:  $batch"),
                 SizedBox(
                   height: 10,
                 ),
@@ -59,15 +68,15 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text("Chapter:"),
+                Text("Chapter: $chapter"),
                 SizedBox(
                   height: 10,
                 ),
-                Text("Center:"),
+                Text("Center: $center"),
                 SizedBox(
                   height: 10,
                 ),
-                if (status == "Pending")
+                if (status == "pending")
                   ButtonWidget(
                     buttonName: "Confirm",
                     onPressed: () {
@@ -78,9 +87,9 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                       ));
                     },
                   )
-                else if (status == "Ongoing")
+                else if (status == "ongoing")
                   ButtonWidget(
-                    buttonName: "End Session",
+                    buttonName: "Confirm",
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
@@ -101,7 +110,7 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
     }
 
     return Consumer<FacultyDash>(
-      builder: (context, testprovider, _) => Scaffold(
+      builder: (context, testprovider, child) => Scaffold(
         backgroundColor: Color.fromRGBO(231, 231, 231, 1),
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(4, 83, 155, 1),
@@ -109,6 +118,7 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
           actions: [
             IconButton(
                 onPressed: () {
+                  // Provider.of<FacultyDash>(context, listen: false).getalldata();
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return NotificationScreen();
@@ -187,99 +197,230 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
           centerTitle: true,
         ),
         body: Column(children: [
-          TopViewWidget(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: testprovider.suject.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(18),
-                child: GestureDetector(
-                  onTap: () {
-                    // Provider.of<FacultyDash>(context, listen: false)
-                    //     .changeStatus(testprovider.suject[index]);
-                    menuList(
-                      testprovider.suject[index].coues,
-                      testprovider.suject[index].subject,
-                      testprovider.suject[index].status,
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12)),
-                    width: MediaQuery.of(context).size.width,
-                    height: 120,
-                    child: Stack(
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 3.2,
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 1)
+                ],
+                color: Color.fromRGBO(4, 83, 155, 1),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(22),
+                    bottomRight: Radius.circular(22))),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ProfileScreen();
+                            },
+                          ));
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          maxRadius: 60,
+                          backgroundImage: NetworkImage(
+                              "https://cdn3d.iconscout.com/3d/premium/thumb/casual-female-5218540-4358040.png"),
+                        )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      testprovider.data?.fullName ?? "nulls",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      testprovider.data?.username ?? "",
+                      style: TextStyle(fontSize: 14, color: Colors.white30),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ListTile(
-                              title: Text(
-                                testprovider.suject[index].coues ?? "",
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                testprovider.suject[index].subject ?? "",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
-                            LinearPercentIndicator(
-                              width: 300,
-                              addAutomaticKeepAlive: true,
-                              barRadius: const Radius.circular(2),
-                              progressColor: testprovider
-                                  .getStatusColor(testprovider.suject[index]),
-                              lineHeight: 14,
-                              percent: 14 / 100,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 68, left: 11),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("1hr"),
-                                  Text("2hr"),
-                                ],
-                              ),
-                            ),
-                          ],
+                        Text(
+                          "1",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 22),
-                              child: Container(
-                                width: 30,
-                                height: MediaQuery.of(context).size.height,
-                                color: testprovider
-                                    .getStatusColor(testprovider.suject[index]),
-                                child: RotatedBox(
-                                  quarterTurns: 1,
-                                  child: Center(
-                                    child: Text(
-                                      testprovider.suject[index].status ?? "",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+                        Text(
+                          "1",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "1",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Incomplete",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          "Pending",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          "Complete",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    )
+                  ]),
                 ),
-              ),
+              ],
             ),
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: testprovider.session!.results!.length,
+                itemBuilder: (context, index) {
+                  print(
+                      " list item = ${testprovider.session?.results?.length}");
+                  return Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Provider.of<FacultyDash>(context, listen: false)
+                        //     .changeStatus(testprovider.session.results![index].progress);
+
+                        // testprovider.getStatusText(
+                        //     testprovider.session!.results![index].progress);
+                        menuList(
+                          testprovider.session!.results![index].courseName,
+                          testprovider.session!.results![index].subjectName,
+                          testprovider.session!.results![index].progress,
+                          testprovider.session!.results![index].chapterTitle,
+                          testprovider.session!.results![index]
+                              .sessionBatch![index].batchName,
+                          testprovider.session!.results![index].centreName,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12)),
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                        child: Stack(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    testprovider.session?.results?[index]
+                                            .courseName ??
+                                        "",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        testprovider.session?.results?[index]
+                                                .chapterTitle ??
+                                            "",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      // Text(testprovider
+                                      //     .session!.results![index].assignedDate
+                                      //     .toString()
+                                      //     .substring(0, 10)),
+                                    ],
+                                  ),
+                                ),
+                                // LinearPercentIndicator(
+                                //   width: 300,
+                                //   addAutomaticKeepAlive: true,
+                                //   barRadius: const Radius.circular(2),
+                                //   progressColor: testprovider.getStatusColor(
+                                //       testprovider
+                                //               .session!.results![index].progress ??
+                                //           "null"),
+                                //   lineHeight: 14,
+                                //   percent: testprovider.session!.results![index]
+                                //           .totalHoursTaken! /
+                                //       testprovider
+                                //           .session!.results![index].totalHours!,
+                                // ),
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.only(right: 68, left: 11),
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text(
+                                //           "${testprovider.session!.results![index].totalHoursTaken}hr"),
+                                //       Text(
+                                //           "${testprovider.session!.results![index].totalHours}hr"),
+                                //     ],
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            //   children: [
+                            //     Padding(
+                            //       padding: const EdgeInsets.only(right: 22),
+                            //       child: Container(
+                            //         width: 30,
+                            //         height: MediaQuery.of(context).size.height,
+                            //         color: testprovider.getStatusColor(testprovider
+                            //                 .session!.results![index].progress ??
+                            //             "null"),
+                            //         child: RotatedBox(
+                            //           quarterTurns: 1,
+                            //           child: Center(
+                            //             child: Text(
+                            //               testprovider.session!.results![index]
+                            //                       .progress ??
+                            //                   "",
+                            //               style: TextStyle(color: Colors.white),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     )
+                            //   ],
+                            // )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
           )
         ]),
       ),

@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                       "Email address",
                       null,
                       Provider.of<LoginController>(context, listen: false)
-                          .emailcontrolelr,
+                          .emailController,
                       false,
                       true),
                   SizedBox(
@@ -55,7 +55,7 @@ class LoginPage extends StatelessWidget {
                       "Password",
                       null,
                       Provider.of<LoginController>(context, listen: false)
-                          .passwordcontroller,
+                          .passwordController,
                       false,
                       true),
                 ],
@@ -67,19 +67,10 @@ class LoginPage extends StatelessWidget {
                   buttonName: "Log In",
                   onPressed: () {
                     Provider.of<LoginController>(context, listen: false)
-                        .loginApi();
+                        .loginApi(context);
 
-                    Provider.of<LoginController>(context, listen: false)
-                        .getToken();
-
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return FacultyDashPage();
-                    //     },
-                    //   ),
-                    // );
+                    // Provider.of<LoginController>(context, listen: false)
+                    //     .getToken();
                   }),
               SizedBox(
                 height: 15,

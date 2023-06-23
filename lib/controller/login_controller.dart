@@ -1,28 +1,28 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tefora/model/faculty_model.dart';
+import 'package:tefora/view/screen/faculty%20dashboard%20screen/faculty_dashscreen.dart';
 import 'package:tefora/view/utilis/constant/api_constant.dart';
+import 'package:tefora/view/utilis/constant/color_constant.dart';
 
 import '../model/login_model.dart';
 
 import 'package:http/http.dart' as http;
 
 class LoginController extends ChangeNotifier {
-  final emailcontrolelr = TextEditingController();
-
-  final passwordcontroller = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future<bool> setToken(String value) async {
-    print("token : ${value}");
+    print("Token: $value");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString('token', value);
   }
 
   Future<String?> getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final val = prefs.getString('token');
+    print("Stored token: $val");
     return prefs.getString('token');
   }
 
@@ -31,60 +31,66 @@ class LoginController extends ChangeNotifier {
     await prefs.remove('token');
   }
 
-  // Future<FacultyModel?> getThemes() async {
-  //   final url = Uri.parse('http://10.0.2.2:3000/v1/api/theme');
-  //   String token;
-  //   getToken().then((value) async {
-  //     token = value!;
+  Future<void> loginApi(BuildContext context) async {
+    final username = emailController.text.trim();
+    final password = passwordController.text.trim();
 
-  //     final response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': 'Bearer $token',
-  //     });
-  //     print('Token : ${token}');
-  //     print(response);
-
-  //     if (response.statusCode == 200) {
-  //       List themesList = jsonDecode(response.body);
-  //       List<FacultyModel> themes = [];
-  //       for (var themeMap in themesList) {
-  //         themes.add(FacultyModel.fromJson(themeMap));
-  //       }
-  //       return themes;
-  //     } else {
-  //       throw Exception('Failed to load themes');
-  //     }
-  //   });
-  // }
-
-  Future<LoginModel?> loginApi() async {
-    var url = Uri.parse(ApiConstant().url);
-
-    var headers = {
-      'Content-Type': 'application/json',
-    };
-
-    var body = {
-      'username': emailcontrolelr.text,
-      'password': passwordcontroller.text,
-    };
-
-    var response =
-        await http.post(url, headers: headers, body: jsonEncode(body));
-    final responseData = json.decode(response.body);
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      final token = responseData['token'];
-      await setToken(token);
-
-      print(token);
-      print("Succesfully Logged in");
-    } else {
-      print("Failed to log in");
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: ColorConst().appcolor,
+          content: Text('Enter your username and password'),
+        ),
+      );
+      return;
     }
-  }
 
-  notifyListeners();
+    try {
+      var url = Uri.parse(ApiConstant().url);
+
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+
+      var body = {
+        'username': username,
+        'password': password,
+      };
+
+      var response =
+          await http.post(url, headers: headers, body: jsonEncode(body));
+      final responseData = json.decode(response.body);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        final token = responseData['token'];
+        await setToken(token);
+
+        print(token);
+        print("Successfully Logged in");
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return FacultyDashPage();
+            },
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorConst().appcolor,
+            content: Text('Username or password is incorrect'),
+          ),
+        );
+        print("Failed to log in");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+
+    notifyListeners();
+  }
 }

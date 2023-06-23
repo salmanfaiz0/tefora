@@ -5,7 +5,19 @@ import 'package:provider/provider.dart';
 import 'package:tefora/controller/demo.dart';
 import 'package:tefora/view/widget/appbar_widgets.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  void initState() {
+    super.initState();
+
+    final result =
+        Provider.of<FacultyDash>(context, listen: false).getalldata();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<FacultyDash>(
@@ -18,7 +30,7 @@ class NotificationScreen extends StatelessWidget {
             separatorBuilder: (context, index) => SizedBox(
               height: 15,
             ),
-            itemCount: 11,
+            itemCount: 1,
             itemBuilder: (context, index) {
               // Check if it's the first container
               final isFirstContainer = index == 0;
@@ -46,7 +58,7 @@ class NotificationScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(12),
                         child: Center(
                           child: Text(
-                              "Hello world! , sdsadasdas sadasdasdasds sdsadasdasdasd"),
+                              "Hello Faculty Name!\nWelcome to the Platinum Academy Application"),
                         ),
                       ),
                     ),
@@ -57,7 +69,7 @@ class NotificationScreen extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        "2:30 AM",
+                        "12:30 PM",
                         style: TextStyle(fontSize: 10),
                       ),
                     ),
