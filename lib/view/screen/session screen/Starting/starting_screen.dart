@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:tefora/controller/demo.dart';
+import 'package:tefora/controller/faculty_controller.dart';
 
 import 'package:tefora/view/screen/faculty%20dashboard%20screen/faculty_dashscreen.dart';
 

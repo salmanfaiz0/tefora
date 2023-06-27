@@ -3,11 +3,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:tefora/controller/forget_controller.dart';
+
+import 'package:tefora/controller/login_controller.dart';
 import 'package:tefora/view/widget/textfield_widget.dart';
 
-class SessionPage extends StatelessWidget {
-  const SessionPage({super.key});
-
+class ForgotPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ForgetService>(

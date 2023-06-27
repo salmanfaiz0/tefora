@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tefora/controller/Service/celander_service.dart';
 import 'package:tefora/controller/Service/faculty_service.dart';
 import 'package:tefora/controller/Service/session_service.dart';
 import 'package:tefora/controller/login_controller.dart';
@@ -23,11 +24,13 @@ class FacultyDash extends ChangeNotifier {
 
   final _session = SessionService();
 
+  final _calender = CalendarService();
+
   Future<ProfileModel?> getalldata() async {
     final result = await _services.getThemes();
     if (result != null) {
       print(result);
-      print("result is not null");
+      print("result is not null, ProfileModel");
       data = result;
       notifyListeners();
     }
@@ -37,10 +40,21 @@ class FacultyDash extends ChangeNotifier {
     final results = await _session.getSession();
     if (results != null) {
       print(results);
-      print("result is not nullssss");
+      print("result is not null , SessionModel");
       session = results;
       notifyListeners();
     }
+  }
+
+  Future<SessionModel?> getcale() async {
+    final results = await _calender.getcalender();
+    if (results != null) {
+      print(results);
+      print("result is not null, Calender");
+      session = results;
+      notifyListeners();
+    }
+    return session;
   }
 
   // List<Subject> suject = [
@@ -100,13 +114,21 @@ class FacultyDash extends ChangeNotifier {
   //   }
   // }
 
-  getStatusText(String? progress) {
-    if (progress == "pending") {
-      return "ongoing";
-    } else if (progress == "ongoing") {
-      return "complete";
-    } else {
-      return "completed";
+  changeStatus(String progress) {
+    var index =
+        session!.results!.indexWhere((element) => element.progress == progress);
+    if (index != -1) {
+      switch (progress) {
+        case "pending":
+          session!.results![index].progress = "ongoing";
+          notifyListeners();
+          break;
+
+        case "ongoing":
+          session!.results![index].progress = "complete";
+          notifyListeners();
+          break;
+      }
     }
   }
 

@@ -10,6 +10,14 @@ import '../model/login_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController extends ChangeNotifier {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.text;
+    passwordController.text;
+    super.dispose();
+  }
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

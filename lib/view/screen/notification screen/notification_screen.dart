@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
-import 'package:tefora/controller/demo.dart';
+import 'package:tefora/controller/faculty_controller.dart';
 import 'package:tefora/view/widget/appbar_widgets.dart';
 
 class NotificationScreen extends StatefulWidget {

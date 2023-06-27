@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tefora/controller/demo.dart';
+import 'package:tefora/controller/forget_controller.dart';
+import 'package:tefora/controller/faculty_controller.dart';
 import 'package:tefora/controller/login_controller.dart';
 
 import 'package:tefora/view/screen/login%20screen/login_screen.dart';
@@ -12,8 +13,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -23,6 +22,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => FacultyDash(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ForgetService(),
         )
       ],
       child: MaterialApp(

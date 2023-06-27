@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tefora/controller/login_controller.dart';
 
 import 'package:tefora/view/screen/faculty%20dashboard%20screen/faculty_dashscreen.dart';
+import 'package:tefora/view/screen/forgot%20screen/forgot_screen.dart';
 import 'package:tefora/view/widget/button_widgets.dart';
 import 'package:tefora/view/widget/textfield_widget.dart';
 
@@ -75,7 +76,15 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Text("Forgot Password?"),
+              TextButton(
+                  child: Text("Forgot Password?"),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return ForgotPage();
+                      },
+                    ));
+                  }),
             ],
           ),
         ),

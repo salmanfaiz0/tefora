@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 class SessionModel {
-  int? count;
+  num? count;
   dynamic next;
   dynamic previous;
   List<Result>? results;
@@ -44,9 +44,9 @@ class SessionModel {
 
 class Result {
   String? id;
-  int? autoId;
+  num? autoId;
   DateTime? assignedDate;
-  int? assignedHours;
+  num? assignedHours;
   String? time;
   String? centreName;
   String? chapterTitle;
@@ -56,8 +56,8 @@ class Result {
   String? startTimeByFaculty;
   String? endTimeByFaculty;
   String? progress;
-  int? totalHours;
-  int? totalHoursTaken;
+  num? totalHours;
+  num? totalHoursTaken;
 
   Result({
     this.id,

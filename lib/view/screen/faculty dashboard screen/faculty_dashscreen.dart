@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ import 'package:tefora/view/screen/session%20screen/Starting/starting_screen.dar
 
 import 'package:tefora/view/widget/button_widgets.dart';
 
-import '../../../controller/demo.dart';
+import '../../../controller/faculty_controller.dart';
 
 class FacultyDashPage extends StatefulWidget {
   @override
@@ -27,12 +28,17 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
   void initState() {
     Provider.of<FacultyDash>(context, listen: false).getalldata();
     Provider.of<FacultyDash>(context, listen: false).getsessionData();
+    Provider.of<FacultyDash>(context, listen: false).getcale();
 
     super.initState();
   }
 
+  final dateFormat = DateFormat('yyyy-MM-dd');
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  final TextEditingController startDateController = TextEditingController();
+  final TextEditingController endDateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     menuList(String? course, String? subject, String? status, String? chapter,
@@ -80,6 +86,8 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                   ButtonWidget(
                     buttonName: "Confirm",
                     onPressed: () {
+                      Provider.of<FacultyDash>(context, listen: false)
+                          .changeStatus("pending");
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return StartingSession();
@@ -91,6 +99,8 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                   ButtonWidget(
                     buttonName: "Confirm",
                     onPressed: () {
+                      Provider.of<FacultyDash>(context, listen: false)
+                          .changeStatus("ongoing");
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return EndingScreen();
@@ -132,62 +142,72 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    content: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            readOnly: true,
-                            controller: TextEditingController(
-                              text: startDate.toString(),
-                            ),
-                            onTap: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: startDate,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2025),
-                              ).then((selectedDate) {
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    startDate = selectedDate;
-                                  });
-                                }
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: "To Date",
-                              border: OutlineInputBorder(),
-                            ),
+                    content: Container(
+                      height: 122,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  readOnly: true,
+                                  controller: startDateController,
+                                  onTap: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: startDate,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025),
+                                    ).then((selectedDate) {
+                                      if (selectedDate != null) {
+                                        startDateController.text =
+                                            dateFormat.format(selectedDate);
+                                      }
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: "To Date",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextField(
+                                  readOnly: true,
+                                  controller: endDateController,
+                                  onTap: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: endDate,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025),
+                                    ).then((selectedDate) {
+                                      if (selectedDate != null) {
+                                        endDateController.text =
+                                            dateFormat.format(selectedDate);
+                                      }
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: "From Date",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            readOnly: true,
-                            controller: TextEditingController(
-                              text: endDate.toString(),
-                            ),
-                            onTap: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: endDate,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2025),
-                              ).then((selectedDate) {
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    endDate = selectedDate;
-                                  });
-                                }
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: "From Date",
-                              border: OutlineInputBorder(),
-                            ),
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                      ],
+                          ButtonWidget(
+                              buttonName: "Filter",
+                              onPressed: () {
+                                Navigator.pop(context);
+                                testprovider.getcale();
+                              })
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -230,14 +250,14 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                       height: 5,
                     ),
                     Text(
-                      testprovider.data?.fullName ?? "nulls",
+                      testprovider.data!.fullName!,
                       style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      testprovider.data?.username ?? "",
+                      testprovider.data!.username!,
                       style: TextStyle(fontSize: 14, color: Colors.white30),
                     ),
                     SizedBox(
@@ -303,6 +323,13 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                     padding: const EdgeInsets.all(18),
                     child: GestureDetector(
                       onTap: () {
+                        // testprovider.changeStatus(
+                        //     testprovider.session!.results![index].progress!);
+                        // testprovider.changeStatus()
+
+                        // testprovider.getStatusText(
+                        //   testprovider.session!.results![index].progress!,
+                        // );
                         // Provider.of<FacultyDash>(context, listen: false)
                         //     .changeStatus(testprovider.session.results![index].progress);
 
@@ -332,9 +359,8 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                               children: [
                                 ListTile(
                                   title: Text(
-                                    testprovider.session?.results?[index]
-                                            .courseName ??
-                                        "",
+                                    testprovider
+                                        .session!.results![index].courseName!,
                                     style: TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
@@ -345,76 +371,73 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        testprovider.session?.results?[index]
-                                                .chapterTitle ??
-                                            "",
+                                        testprovider.session!.results![index]
+                                            .chapterTitle!,
                                         style: TextStyle(
                                           fontSize: 17,
                                         ),
                                       ),
-                                      // Text(testprovider
-                                      //     .session!.results![index].assignedDate
-                                      //     .toString()
-                                      //     .substring(0, 10)),
+                                      Text(testprovider
+                                          .session!.results![index].assignedDate
+                                          .toString()
+                                          .substring(0, 10)),
                                     ],
                                   ),
                                 ),
-                                // LinearPercentIndicator(
-                                //   width: 300,
-                                //   addAutomaticKeepAlive: true,
-                                //   barRadius: const Radius.circular(2),
-                                //   progressColor: testprovider.getStatusColor(
-                                //       testprovider
-                                //               .session!.results![index].progress ??
-                                //           "null"),
-                                //   lineHeight: 14,
-                                //   percent: testprovider.session!.results![index]
-                                //           .totalHoursTaken! /
-                                //       testprovider
-                                //           .session!.results![index].totalHours!,
-                                // ),
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.only(right: 68, left: 11),
-                                //   child: Row(
-                                //     mainAxisAlignment:
-                                //         MainAxisAlignment.spaceBetween,
-                                //     children: [
-                                //       Text(
-                                //           "${testprovider.session!.results![index].totalHoursTaken}hr"),
-                                //       Text(
-                                //           "${testprovider.session!.results![index].totalHours}hr"),
-                                //     ],
-                                //   ),
-                                // ),
+                                LinearPercentIndicator(
+                                  width: 300,
+                                  addAutomaticKeepAlive: true,
+                                  barRadius: const Radius.circular(2),
+                                  progressColor: testprovider.getStatusColor(
+                                      testprovider
+                                          .session!.results![index].progress!),
+                                  lineHeight: 14,
+                                  percent: testprovider.session!.results![index]
+                                          .totalHoursTaken! /
+                                      testprovider
+                                          .session!.results![index].totalHours!,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 68, left: 11),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          "${testprovider.session!.results![index].totalHoursTaken}hr"),
+                                      Text(
+                                          "${testprovider.session!.results![index].totalHours}hr"),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-                            //     Padding(
-                            //       padding: const EdgeInsets.only(right: 22),
-                            //       child: Container(
-                            //         width: 30,
-                            //         height: MediaQuery.of(context).size.height,
-                            //         color: testprovider.getStatusColor(testprovider
-                            //                 .session!.results![index].progress ??
-                            //             "null"),
-                            //         child: RotatedBox(
-                            //           quarterTurns: 1,
-                            //           child: Center(
-                            //             child: Text(
-                            //               testprovider.session!.results![index]
-                            //                       .progress ??
-                            //                   "",
-                            //               style: TextStyle(color: Colors.white),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     )
-                            //   ],
-                            // )
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 22),
+                                  child: Container(
+                                    width: 30,
+                                    height: MediaQuery.of(context).size.height,
+                                    color: testprovider.getStatusColor(
+                                        testprovider.session!.results![index]
+                                            .progress!),
+                                    child: RotatedBox(
+                                      quarterTurns: 1,
+                                      child: Center(
+                                        child: Text(
+                                          testprovider.session!.results![index]
+                                              .progress!,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ),
                       ),

@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:tefora/controller/demo.dart';
+import 'package:tefora/controller/faculty_controller.dart';
 import 'package:tefora/controller/login_controller.dart';
 import 'package:tefora/view/screen/login%20screen/login_screen.dart';
+import 'package:tefora/view/screen/profile%20screen/widgets/Dashboard/dashborad_widget.dart';
+import 'package:tefora/view/screen/profile%20screen/widgets/History/session_history_widget.dart';
 import 'package:tefora/view/screen/profile%20screen/widgets/Payment/payment_widget.dart';
 import 'package:tefora/view/screen/profile%20screen/widgets/Privacy/privacy_widget.dart';
 import 'package:tefora/view/screen/profile%20screen/widgets/Profile%20Widget/profile_widget.dart';
+import 'package:tefora/view/screen/profile%20screen/widgets/Reedem/reedem_widget.dart';
 import 'package:tefora/view/widget/appbar_widgets.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -96,12 +99,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ProfileWidget(
                           title: "Dashboard Profile",
                           icon: Iconsax.user_edit,
-                          onpress: () {},
+                          onpress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileDash(),
+                                ));
+                          },
                         ),
                         ProfileWidget(
                           title: "Session History",
                           icon: Iconsax.sms,
-                          onpress: () {},
+                          onpress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SessionPage(),
+                                ));
+                          },
                         ),
                         ProfileWidget(
                           title: "Payment History",
@@ -117,7 +132,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ProfileWidget(
                           title: "Bounce & Redeem",
                           icon: Iconsax.coin,
-                          onpress: () {},
+                          onpress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RedeemPage(),
+                                ));
+                          },
                         ),
                         ProfileWidget(
                           title: "Privacy & Policy",
@@ -136,11 +157,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onpress: () {
                             Provider.of<LoginController>(context, listen: false)
                                 .removeToken();
-                            Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
                             print("Logged out");
                           },
                           endIcon: false,

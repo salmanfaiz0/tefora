@@ -86,7 +86,7 @@ class _EndingScreenState extends State<EndingScreen> {
             SizedBox(height: 15),
             ButtonWidget(
               buttonName: "Submit",
-              onPressed: () => Navigator.pushReplacement(
+              onPressed: () => Navigator.pop(
                 context,
                 MaterialPageRoute(builder: (context) {
                   return FacultyDashPage();
