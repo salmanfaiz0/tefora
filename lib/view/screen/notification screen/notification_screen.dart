@@ -11,13 +11,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  void initState() {
-    super.initState();
-
-    final result =
-        Provider.of<FacultyDash>(context, listen: false).getalldata();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<FacultyDash>(
@@ -51,7 +44,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ),
                     SizedBox(width: 20),
                     Container(
-                      width: 320,
+                      width: MediaQuery.of(context).size.width / 1.2,
                       height: 70,
                       color: Colors.white,
                       child: Padding(
@@ -65,7 +58,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ]),
                   SizedBox(height: 5),
                   Padding(
-                    padding: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 2),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(

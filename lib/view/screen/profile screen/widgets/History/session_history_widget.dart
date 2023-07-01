@@ -53,7 +53,7 @@ class SessionPage extends StatelessWidget {
                 ElevatedButton(
                     onPressed: () {
                       Provider.of<ForgetService>(context, listen: false)
-                          .getpassword();
+                          .getpassword(context);
                     },
                     child: Text("data"))
               ]),

@@ -111,11 +111,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: "Session History",
                           icon: Iconsax.sms,
                           onpress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SessionPage(),
-                                ));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => SessionPage(),
+                            //     ));
                           },
                         ),
                         ProfileWidget(

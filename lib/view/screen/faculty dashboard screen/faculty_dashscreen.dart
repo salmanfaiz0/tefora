@@ -219,7 +219,7 @@ class _FacultyDashPageState extends State<FacultyDashPage> {
         body: Column(children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3.2,
+            height: MediaQuery.of(context).size.height / 3.3,
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 1)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:iconsax/iconsax.dart';
 
 class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -23,6 +24,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       backgroundColor: bgColor,
+      // leading: Icon(Iconsax.backward1),
       // backgroundColor: Color.fromRGBO(4, 83, 155, 1),
       title: Text(
         headername,
